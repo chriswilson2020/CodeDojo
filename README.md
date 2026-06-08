@@ -1,4 +1,4 @@
-🦊 Code Dojo
+# 🦊 Code Dojo
 A tap-only block-coding game that teaches real programming concepts — no typing, no setup, one HTML file.
 You guide a fox 🦊 to a gate ⛩️ by snapping together colour-coded blocks. Each lesson earns a belt, and every idea behind the blocks (sequences, loops, variables, decisions, events, memory, shortest-path search) is a concept that carries straight over to actual coding.
 It was built for a bright, dyslexic kid, so the whole thing is designed to keep reading load low: clear fonts, cream background, big tap targets, colour cues, optional read-aloud, and short text. It works just as well for anyone learning the basics.
