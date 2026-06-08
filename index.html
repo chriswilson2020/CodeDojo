@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<!-- saved from url=(0042)file:///Users/chris/Downloads/index_2.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Code Dojo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com/">
-<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="./Code Dojo_files/css2" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Lexend:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#f6efe1; --paper-2:#efe6d3; --ink:#2c2a3a; --ink-soft:#5b566b; --line:#d9cdb4;
@@ -204,37 +204,37 @@
     <div><h1>Code Dojo</h1><p>Learn a skill, pass the belt test, climb the ranks.</p></div>
   </header>
 
-  <div class="belt-rack" id="beltRack"><div class="belt-chip earned" title="Get your certificate" style="cursor: pointer;"><span class="bb">🟨</span><span class="nm">Yellow Belt</span></div><div class="belt-chip earned" title="Get your certificate" style="cursor: pointer;"><span class="bb">🟧</span><span class="nm">Orange Belt</span></div><div class="belt-chip earned" title="Get your certificate" style="cursor: pointer;"><span class="bb">🟩</span><span class="nm">Green Belt</span></div><div class="belt-chip earned" title="Get your certificate" style="cursor: pointer;"><span class="bb">🟦</span><span class="nm">Blue Belt</span></div><div class="belt-chip earned" title="Get your certificate" style="cursor: pointer;"><span class="bb">🟣</span><span class="nm">Purple Belt</span></div><div class="belt-chip earned" title="Get your certificate" style="cursor: pointer;"><span class="bb">🟤</span><span class="nm">Brown Belt</span></div><div class="belt-chip earned" title="Get your certificate" style="cursor: pointer;"><span class="bb">🥋</span><span class="nm">Black Belt</span></div></div>
-  <div class="tabs" id="tabs"><button class="tab">📚 Lesson 1: Moves</button><button class="tab">📗 Lesson 2: Energy</button><button class="tab">📙 Lesson 3: Decisions</button><button class="tab">📕 Lesson 4: Controls</button><button class="tab">📓 Lesson 5: Memory</button><button class="tab">📔 Lesson 6: Best Way</button><button class="tab active">🥋 Black Belt</button></div>
-  <div class="seg" id="sectionToggle" style="display: none;">
-    <button id="segLearn" class="">📖 Learn</button>
-    <button id="segTest" class="on">🎓 Belt Test</button>
+  <div class="belt-rack" id="beltRack"></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="seg" id="sectionToggle">
+    <button id="segLearn" class="on">📖 Learn</button>
+    <button id="segTest">🎓 Belt Test</button>
   </div>
-  <div class="levels" id="levels"><button class="lvl-btn active"><span>1</span><span>G1</span><span class="star">★★★</span></button><button class="lvl-btn"><span>2</span><span>G2</span><span class="star">★★★</span></button><button class="lvl-btn"><span>3</span><span>G3</span><span class="star">★★★</span></button><button class="lvl-btn"><span>4</span><span>G4</span><span class="star">★★</span></button><button class="lvl-btn"><span>5</span><span>G5</span><span class="star">★★★</span></button><button class="lvl-btn"><span>6</span><span>G6</span><span class="star">★★★</span></button><button class="lvl-btn"><span>7</span><span>G7</span><span class="star">★★★</span></button></div>
+  <div class="levels" id="levels"></div>
 
   <div class="grid2">
     <section class="card">
       <div class="mission-head">
-        <h2 id="missionTitle">Grading 1 — Combo</h2>
+        <h2 id="missionTitle">Mission</h2>
         <div class="head-btns">
-          <button class="hint-btn" id="hintBtn" style="">💡 Hint</button>
+          <button class="hint-btn" id="hintBtn" style="display:none">💡 Hint</button>
           <button class="read-btn" id="readBtn">🔊 Read it</button>
         </div>
       </div>
-      <p class="mission-text" id="missionText">Climb down to the gate.</p>
-      <span class="concept" id="conceptTag">🥋 Black Belt Grading — everything you’ve learned</span>
-      <div id="lessonDiagram" style="margin: 10px 0px 2px; display: none;"></div>
+      <p class="mission-text" id="missionText"></p>
+      <span class="concept" id="conceptTag"></span>
+      <div id="lessonDiagram" style="display:none;margin:10px 0 2px"></div>
       <p class="hint-text" id="hintText"></p>
       <div class="hud" id="hud" style="display:none">🔋 Energy 0</div>
       <div class="hud steps" id="steps" style="display:none">👣 0</div>
-      <div class="exam-strip show" id="examStrip"><div class="pip cur done">★★★</div><div class="pip done">★★★</div><div class="pip done">★★★</div><div class="pip done">★★</div><div class="pip done">★★★</div><div class="pip done">★★★</div><div class="pip done">★★★</div></div>
-      <div class="stage-wrap"><canvas id="stage" width="380" height="380"></canvas></div>
+      <div class="exam-strip" id="examStrip"></div>
+      <div class="stage-wrap"><canvas id="stage" width="400" height="400"></canvas></div>
       <div class="controls">
         <button class="btn run" id="runBtn">▶ Run</button>
         <button class="btn reset" id="resetBtn">↺ Reset</button>
         <button class="btn clear" id="clearBtn">🗑 Clear code</button>
         <button class="btn flood" id="floodBtn" style="display:none">🌊 Show the flood</button>
-        <button class="btn demo" id="demoBtn" style="display: none;">👀 Show me</button>
+        <button class="btn demo" id="demoBtn" style="display:none">👀 Show me</button>
       </div>
       <div class="dpad" id="dpad" style="display:none">
         <button data-ev="up">▲</button>
@@ -250,14 +250,14 @@
     </section>
 
     <section class="card">
-      <div class="panel-head"><h2 id="codeHead">Your code</h2><span class="par" id="par">Target: 6 blocks for ★★★</span></div>
+      <div class="panel-head"><h2 id="codeHead">Your code</h2><span class="par" id="par"></span></div>
       <div id="progEditor">
         <div class="prog-zone">
           <p class="zone-label">Steps — run top to bottom</p>
           <div id="programList"></div>
           <button class="add-btn" id="addMain">➕ Add a step</button>
         </div>
-        <div class="combo-card" id="comboCard" style="">
+        <div class="combo-card" id="comboCard" style="display:none">
           <h3>⭐ Combo — your reusable move</h3>
           <div id="comboList"></div>
           <button class="add-btn add-mini" id="addCombo" style="border-color:var(--combo);color:var(--combo-d)">➕ Add to combo</button>
@@ -493,17 +493,17 @@ const L5_LEARN=[
    text:'See the picture below: the fox can\u2019t tell one corner from the next, so it flips a switch each step and lets the switch pick the turn. Build it: Repeat [ Step · If 🔵 → Right & Set 🟠 · else → Left & Set 🔵 ]. Try it yourself, or tap 👀 Show me.',
    concept:'New idea: MEMORY. The fox can\u2019t see which way it turned last — so it flips a switch (🔵 ↔ 🟠) each step and checks it. That switch is its memory: it\u2019s how the fox knows whether to turn right or left this time.',
    grid:['S.##','#..#','##..','###G'],dir:'E',par:7,diagram:SCH_MEMORY,demo:[['rep',8,['m',['ifm',['r','so'],['l','sb']]]]],palette:['move','left','right','repeat','ifmode','setBlue','setOrange'],combo:false},
-  {name:'Sweep',icon:'2',title:'The Sweep',
-   text:'Mow the whole field: grab every gem 💎 and reach the gate ⛩️. Snake along a row, U-turn, snake back. The trap: both ends of a row look identical to the fox — so it must remember which way it was travelling to U-turn the right way. Use If Path to keep stepping, and your 🔵/🟠 switch to choose the U-turn.',
-   concept:'Why memory matters: when two spots look exactly the same but need different moves, only the switch in the fox\u2019s head tells them apart.',
-   grid:['S***','****','***G'],dir:'E',par:12,demo:[['repU',[['if',['m'],[['ifm',['r','m','r','so'],['l','m','l','sb']]]]]]],palette:['move','left','right','repeat','if','ifmode','setBlue','setOrange'],combo:false},
-  {name:'Big Sweep',icon:'3',title:'The Bigger Field',
-   text:'A bigger field — but your sweeping rule shouldn\u2019t change at all. Set the Repeat to \u2018until ⛩️\u2019 and the same memory rule clears it. That is the power of a good rule.',
-   concept:'One rule, any size. The switch handles every U-turn no matter how many rows there are.',
+  {name:'Switchback',icon:'2',title:'The Switchback',
+   text:'Now the straights are long. Walk until you hit a wall, THEN flip your switch to pick the turn — right, then left, then right. Build: Repeat until ⛩️ [ If Path → Step · else → If 🔵 → Right & Set 🟠 · else → Left & Set 🔵 ].',
+   concept:'A new job for memory: If Path walks the straights, and the switch only decides which way to turn when you finally meet a wall.',
+   grid:['S..##','##.##','##...','####.','####G'],dir:'E',par:8,demo:[['repU',[['if',['m'],[['ifm',['r','so'],['l','sb']]]]]]],palette:['move','left','right','repeat','if','ifmode','setBlue','setOrange'],combo:false},
+  {name:'Sweep',icon:'3',title:'The Sweep',
+   text:'Mow the WHOLE field: grab every gem 💎 and reach the gate ⛩️. At each end the fox must U-turn — and both ends look identical, so only its switch knows which way to turn. Build: Repeat until ⛩️ [ If Path → Step · else → If 🔵 → Right, Step, Right & Set 🟠 · else → Left, Step, Left & Set 🔵 ].',
+   concept:'The same memory trick, now driving a U-turn to sweep a whole field — this is how a robot mower or a printer head really works.',
    grid:['S****','*****','*****','G****'],dir:'E',par:12,demo:[['repU',[['if',['m'],[['ifm',['r','m','r','so'],['l','m','l','sb']]]]]]],palette:['move','left','right','repeat','if','ifmode','setBlue','setOrange'],combo:false},
   {name:'Boss',icon:'4',title:'The Big Field',
-   text:'A whole field to clear. You don\u2019t need to know how big it is — your remembering rule handles any size. Collect every gem 💎 and reach the gate ⛩️.',
-   concept:'This is how a robot mower or a printer head really works — a sweep that remembers its direction. A real algorithm, built from memory.',
+   text:'The championship: clear a whole BIG field — every gem 💎 — and reach the gate ⛩️. Your sweep rule doesn\u2019t change at all; set the Repeat to \u2018until ⛩️\u2019 and let it run. Same memory, any size.',
+   concept:'A real algorithm scales: the same remembered switch clears a field of any size — you never told it how big the room is.',
    grid:['S*****','******','******','******','*****G'],dir:'E',par:12,demo:[['repU',[['if',['m'],[['ifm',['r','m','r','so'],['l','m','l','sb']]]]]]],palette:['move','left','right','repeat','if','ifmode','setBlue','setOrange'],combo:false},
 ];
 /* ===== Lesson 5 — BELT TEST (Purple) ===== */
@@ -1320,6 +1320,5 @@ loadProgress(); loadName(); loadDates();
 renderBeltRack(); renderTabs(); renderSectionToggle();
 loadLevel(0);
 </script>
-
-
-</body></html>
+</body>
+</html>
