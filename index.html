@@ -841,7 +841,6 @@ function toggleFlood(){
   floodActive=true; $('floodBtn').textContent='🌊 Hide the flood';
   const maxD=floodMax(); let layer=0; drawFloodUpto(0);
   floodTimer=setInterval(()=>{layer++; drawFloodUpto(layer); if(layer>=maxD){clearInterval(floodTimer);floodTimer=null;}},170);
-  speak('Watch the flood spread out from the start, one ring at a time. The number on the gate is the shortest distance.');
 }
 
 /* ===== run / playback ===== */
