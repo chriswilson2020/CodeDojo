@@ -77,6 +77,15 @@
   .btn.flood{background:var(--iflow)}
   .btn.demo{background:var(--loop)}
   #lessonDiagram svg{width:100%;height:auto;display:block;max-width:560px;margin:0 auto}
+  .audio-bar{display:flex;align-items:center;gap:10px;margin-top:10px;background:var(--paper-2);border:2px solid var(--line);border-radius:12px;padding:8px 12px}
+  .audio-play{flex:0 0 auto;width:40px;height:40px;border-radius:50%;border:none;background:var(--ink);color:var(--paper);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .audio-play:hover{opacity:.9}
+  .audio-label{flex:0 0 auto;font-family:"Lexend",sans-serif;font-weight:700;font-size:13px;color:var(--ink-soft)}
+  .audio-track{flex:1;height:12px;min-width:60px;background:#e3d8bd;border-radius:7px;cursor:pointer;overflow:hidden}
+  .audio-fill{height:100%;width:0%;background:var(--loop);border-radius:7px}
+  .audio-time{flex:0 0 auto;font-family:"Lexend",sans-serif;font-size:12px;color:var(--ink-soft);min-width:80px;text-align:right;font-variant-numeric:tabular-nums}
+  .audio-bar.audio-off{opacity:.5}
+  .audio-play:disabled{cursor:default}
   .exam-strip{display:none;gap:7px;margin:10px 0 2px;flex-wrap:wrap}
   .exam-strip.show{display:flex}
   .pip{width:34px;height:34px;border-radius:9px;border:2px solid var(--line);background:var(--paper);
@@ -223,6 +232,12 @@
       </div>
       <p class="mission-text" id="missionText"></p>
       <span class="concept" id="conceptTag"></span>
+      <div id="audioBar" class="audio-bar" style="display:none">
+        <button id="audioPlay" class="audio-play" aria-label="Play lesson audio">▶</button>
+        <span class="audio-label" id="audioLabel">🎧 Lesson</span>
+        <div id="audioTrack" class="audio-track"><div id="audioFill" class="audio-fill"></div></div>
+        <span id="audioTime" class="audio-time">0:00</span>
+      </div>
       <div id="lessonDiagram" style="display:none;margin:10px 0 2px"></div>
       <p class="hint-text" id="hintText"></p>
       <div class="hud" id="hud" style="display:none">🔋 Energy 0</div>
@@ -1054,15 +1069,36 @@ function buildBlock(s){
 }
 function buildDemo(spec){return spec.map(buildBlock);}
 function stopAudio(){try{if(currentAudio){currentAudio.pause();currentAudio=null;}}catch(e){} try{if('speechSynthesis'in window)speechSynthesis.cancel();}catch(e){}}
-function playLessonAudio(id){
-  stopAudio();
-  try{
-    const a=new Audio('dojo-audio/'+id+'.mp3'); currentAudio=a;
-    a.addEventListener('error',()=>{currentAudio=null;});
-    const p=a.play();
-    if(p&&p.catch)p.catch(()=>{currentAudio=null;});
-  }catch(e){currentAudio=null;}
+/* ===== lesson audio player (play / pause / progress) ===== */
+const lessonAudio = new Audio(); lessonAudio.preload='metadata'; let audioReady=false;
+function fmtTime(t){ if(!isFinite(t)||t<0)t=0; t=Math.floor(t); return Math.floor(t/60)+':'+String(t%60).padStart(2,'0'); }
+function audioOnThisLevel(){ return !isBlack() && !isTest(); }
+function refreshAudioBar(){
+  const show=audioOnThisLevel();
+  $('audioBar').style.display = show ? '' : 'none';
+  if(!show) return;
+  $('audioPlay').disabled = !audioReady;
+  $('audioBar').classList.toggle('audio-off', !audioReady);
+  $('audioLabel').textContent = audioReady ? '🎧 Lesson' : '🎧 add '+curLesson+'.mp3';
 }
+function setupAudioFor(lessonId){
+  if(lessonAudio.getAttribute('data-lesson')===lessonId) return; // keep playing across sub-levels
+  try{ lessonAudio.pause(); }catch(e){}
+  audioReady=false;
+  $('audioPlay').textContent='▶'; $('audioFill').style.width='0%'; $('audioTime').textContent='0:00';
+  lessonAudio.setAttribute('data-lesson',lessonId);
+  lessonAudio.src='dojo-audio/'+lessonId+'.mp3';
+  lessonAudio.load();
+}
+lessonAudio.addEventListener('loadedmetadata',()=>{ audioReady=true; $('audioTime').textContent='0:00 / '+fmtTime(lessonAudio.duration); refreshAudioBar(); });
+lessonAudio.addEventListener('error',()=>{ audioReady=false; refreshAudioBar(); });
+lessonAudio.addEventListener('timeupdate',()=>{ const d=lessonAudio.duration||0,c=lessonAudio.currentTime||0;
+  $('audioFill').style.width=(d?(c/d*100):0)+'%'; $('audioTime').textContent=fmtTime(c)+' / '+fmtTime(d); });
+lessonAudio.addEventListener('ended',()=>{ $('audioPlay').textContent='▶'; });
+$('audioPlay').onclick=()=>{ if(!audioReady)return; if(lessonAudio.paused){ lessonAudio.play().then(()=>{$('audioPlay').textContent='⏸';}).catch(()=>{}); }
+  else { lessonAudio.pause(); $('audioPlay').textContent='▶'; } };
+$('audioTrack').onclick=(e)=>{ if(!audioReady)return; const r=$('audioTrack').getBoundingClientRect(); const ratio=Math.min(1,Math.max(0,(e.clientX-r.left)/r.width));
+  if(isFinite(lessonAudio.duration)) lessonAudio.currentTime=ratio*lessonAudio.duration; };
 function autoDrive(seq){
   let i=0;
   const t=setInterval(()=>{
@@ -1075,7 +1111,6 @@ function showMe(){
   if(running||locked)return;
   const def=level.def;
   stopAudio();
-  if(curIdx===0) playLessonAudio(curLesson);
   if(def.shortest){ if(!floodActive)toggleFlood(); return; }
   if(!def.demoFail) rec(setId(),curIdx).shown=true;
   if(def.interactive){
@@ -1121,6 +1156,8 @@ function loadLevel(i){
   else $('conceptTag').textContent=def.concept;
   $('sandboxHint').style.display = def.sandbox ? '' : 'none';
   { const ld=$('lessonDiagram'); if(def.diagram){ ld.innerHTML=def.diagram; ld.style.display=''; } else { ld.innerHTML=''; ld.style.display='none'; } }
+  if(isBlack()||isTest()){ try{lessonAudio.pause();}catch(e){} $('audioPlay').textContent='▶'; $('audioBar').style.display='none'; }
+  else { setupAudioFor(curLesson); refreshAudioBar(); }
   $('hud').style.display = def.energy!=null ? '' : 'none';
   const hb=$('hintBtn'), ht=$('hintText');
   if(isTest()){ hb.style.display=''; ht.className='hint-text'; ht.textContent='';
