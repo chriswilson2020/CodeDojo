@@ -725,6 +725,7 @@ function renderAll(){
   if(allowCombo){$('comboCard').style.display=''; $('comboList').innerHTML='';
     comboBody.forEach((b,i)=>$('comboList').appendChild(renderBlock(b,comboBody,i)));}
   else $('comboCard').style.display='none';
+  if(level&&level.def&&level.def.interactive)renderHandlers();
 }
 function renderBlock(b,parentArr,idx){
   const m=META[b.type]; const el=document.createElement('div');
